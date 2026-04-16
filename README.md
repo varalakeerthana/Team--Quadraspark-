@@ -8,9 +8,9 @@ Title of your repository shall be : team-(Quadraspark)
 
 After forking, fill in your team details below in your fork's README
 
-- **Team Name:**
-- **Team Lead:**
-- **Team Members:**
+- **Team Name: Quadraspark**
+- **Team Lead: Varala Keerthana**
+- **Team Members: 4**
   - Member 1: Varala Keerthana
   - Member 2: B Hima Bindhu
   - Member 3: Guguloth Suchithra
@@ -47,7 +47,9 @@ git push origin main
 ## Problem Statement
 
 [Write your problem statement here]
-
+Campus infrastructure complaints travel through WhatsApp messages and phone calls that go
+nowhere. The same issues get reported repeatedly, nothing is tracked, and reporters have no idea
+whether anything is actually being done
 ---
 
 ## Submission Guidelines

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusIQ — Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+</head>
+<body class="login-page">
+
+  <!-- Animated background blobs -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="login-wrapper">
+    <!-- Branding -->
+    <div class="login-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="10" fill="currentColor" opacity="0.15"/>
+          <path d="M20 8L32 14V26L20 32L8 26V14L20 8Z" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+          <path d="M20 16V12M20 28V24M12 20H8M32 20H28" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <h1 class="brand-name">CampusIQ</h1>
+      <p class="brand-tagline">Issue Reporting System</p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card" id="loginCard">
+      <div class="card-header">
+        <h2>Welcome</h2>
+        <p>Sign in to continue</p>
+      </div>
+
+      <!-- Role Toggle -->
+      <div class="role-toggle">
+        <button class="role-btn active" data-role="student" onclick="setRole('student')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
+          Student
+        </button>
+        <button class="role-btn" data-role="admin" onclick="setRole('admin')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Admin
+        </button>
+        <button class="role-btn" data-role="staff" onclick="setRole('staff')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a4 4 0 00-2-3.464A5.978 5.978 0 0118 17v1h-2zM4 18v-1a4 4 0 012-3.464A5.978 5.978 0 002 17v1h2z"/></svg>
+          Staff
+        </button>
+      </div>
+
+      <!-- ── STUDENT FORM ── -->
+      <form id="studentForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="s_username">Student ID (12-digit, starts with 1005)</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+            <input type="text" id="s_username" placeholder="100500000001" maxlength="12" required autocomplete="off"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="s_phone">Phone Number (10 digits)</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+            <input type="tel" id="s_phone" placeholder="9876543210" maxlength="10" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="s_password">Password (min 8 characters)</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+            <input type="password" id="s_password" placeholder="Min 8 characters" minlength="8" required/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('s_password')">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="error-msg" id="studentError"></div>
+        <button type="submit" class="btn-login" id="studentLoginBtn">
+          <span>Sign In as Student</span>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+        </button>
+      </form>
+
+      <!-- ── ADMIN FORM ── -->
+      <form id="adminForm" class="hidden" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="a_username">Admin Username</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+            <input type="text" id="a_username" placeholder="Admin username" required autocomplete="off"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="a_password">Password</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+            <input type="password" id="a_password" placeholder="Password" required/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('a_password')">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="a_category">Responsible Category</label>
+          <div class="select-wrap">
+            <select id="a_category" required>
+              <option value="">Select your category</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Plumbing">Plumbing</option>
+              <option value="Safety">Safety</option>
+              <option value="Network">Network</option>
+              <option value="Cleanliness">Cleanliness</option>
+              <option value="All">All (Super Admin)</option>
+            </select>
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+        </div>
+        <div class="error-msg" id="adminError"></div>
+        <button type="submit" class="btn-login" id="adminLoginBtn">
+          <span>Sign In as Admin</span>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+        </button>
+        <p class="login-hint">Admins: <strong>admin/1234</strong> (All), <strong>electrical/elec123</strong>, <strong>plumbing/plumb123</strong>, etc.</p>
+      </form>
+
+      <!-- ── STAFF FORM ── -->
+      <form id="staffForm" class="hidden" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="st_name">Full Name</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+            <input type="text" id="st_name" placeholder="Your full name" required autocomplete="off"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="st_category">Category of Work</label>
+          <div class="select-wrap">
+            <select id="st_category" required onchange="updateStaffHint()">
+              <option value="">Select your category</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Plumbing">Plumbing</option>
+              <option value="Safety">Safety</option>
+              <option value="Network">Network</option>
+              <option value="Cleanliness">Cleanliness</option>
+            </select>
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="st_password">Category Password</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+            <input type="password" id="st_password" placeholder="Category-based password" required/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('st_password')">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
+          <p class="staff-hint" id="staffHint"></p>
+        </div>
+        <div class="error-msg" id="staffError"></div>
+        <button type="submit" class="btn-login" id="staffLoginBtn">
+          <span>Sign In as Staff</span>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    // ── Redirect if already logged in ──
+    if (localStorage.getItem('campusiq_user')) {
+      window.location.href = 'index.html';
+    }
+
+    /* ── Role configs ── */
+    // Admin accounts: username → { password, category }
+    const ADMIN_ACCOUNTS = {
+      'admin':       { password: '1234',      category: 'All' },
+      'electrical':  { password: 'elec123',   category: 'Electrical' },
+      'plumbing':    { password: 'plumb123',  category: 'Plumbing' },
+      'safety':      { password: 'safe123',   category: 'Safety' },
+      'network':     { password: 'net123',    category: 'Network' },
+      'cleanliness': { password: 'clean123',  category: 'Cleanliness' },
+    };
+
+    // Staff category passwords
+    const STAFF_PASSWORDS = {
+      'Electrical':  'staff_elec',
+      'Plumbing':    'staff_plumb',
+      'Safety':      'staff_safe',
+      'Network':     'staff_net',
+      'Cleanliness': 'staff_clean',
+    };
+
+    let currentRole = 'student';
+
+    /* ── Role toggle ── */
+    function setRole(role) {
+      currentRole = role;
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`[data-role="${role}"]`).classList.add('active');
+      document.getElementById('studentForm').classList.toggle('hidden', role !== 'student');
+      document.getElementById('adminForm').classList.toggle('hidden',   role !== 'admin');
+      document.getElementById('staffForm').classList.toggle('hidden',   role !== 'staff');
+    }
+
+    /* ── Staff hint ── */
+    function updateStaffHint() {
+      const cat = document.getElementById('st_category').value;
+      const hint = document.getElementById('staffHint');
+      hint.textContent = cat ? `Hint: staff_${cat.toLowerCase().slice(0,5)}` : '';
+    }
+
+    /* ── Toggle password visibility ── */
+    function togglePassword(id) {
+      const el = document.getElementById(id);
+      el.type = el.type === 'password' ? 'text' : 'password';
+    }
+
+    /* ── Main login handler ── */
+    function handleLogin(e) {
+      e.preventDefault();
+
+      if (currentRole === 'student')  loginStudent();
+      else if (currentRole === 'admin') loginAdmin();
+      else loginStaff();
+    }
+
+    /* ── Student login ── */
+    function loginStudent() {
+      const username = document.getElementById('s_username').value.trim();
+      const phone    = document.getElementById('s_phone').value.trim();
+      const password = document.getElementById('s_password').value;
+      const errorEl  = document.getElementById('studentError');
+      const btn      = document.getElementById('studentLoginBtn');
+
+      errorEl.textContent = '';
+
+      // Validate username: exactly 12 digits, starts with 1005
+      if (!/^\d{12}$/.test(username)) {
+        errorEl.textContent = 'Student ID must be exactly 12 digits.';
+        shake(); return;
+      }
+      if (!username.startsWith('1005')) {
+        errorEl.textContent = 'Student ID must start with "1005".';
+        shake(); return;
+      }
+
+      // Validate phone: exactly 10 digits
+      if (!/^\d{10}$/.test(phone)) {
+        errorEl.textContent = 'Phone number must be exactly 10 digits.';
+        shake(); return;
+      }
+
+      // Validate password: min 8 chars
+      if (password.length < 8) {
+        errorEl.textContent = 'Password must be at least 8 characters.';
+        shake(); return;
+      }
+
+      btn.classList.add('loading');
+      setTimeout(() => {
+        // Register or login: check if student already exists with same password
+        const students = JSON.parse(localStorage.getItem('campusiq_students') || '{}');
+        if (students[username] && students[username].password !== password) {
+          errorEl.textContent = 'Incorrect password for this Student ID.';
+          btn.classList.remove('loading'); shake(); return;
+        }
+        // Register new student
+        if (!students[username]) {
+          students[username] = { password, phone };
+          localStorage.setItem('campusiq_students', JSON.stringify(students));
+        }
+        localStorage.setItem('campusiq_user', JSON.stringify({ username, role: 'student', phone }));
+        window.location.href = 'index.html';
+      }, 600);
+    }
+
+    /* ── Admin login ── */
+    function loginAdmin() {
+      const username = document.getElementById('a_username').value.trim();
+      const password = document.getElementById('a_password').value;
+      const category = document.getElementById('a_category').value;
+      const errorEl  = document.getElementById('adminError');
+      const btn      = document.getElementById('adminLoginBtn');
+
+      errorEl.textContent = '';
+
+      if (!username || !password || !category) {
+        errorEl.textContent = 'Please fill all fields including category.';
+        shake(); return;
+      }
+
+      const account = ADMIN_ACCOUNTS[username];
+      if (!account) {
+        errorEl.textContent = 'Admin username not found.';
+        shake(); return;
+      }
+      if (account.password !== password) {
+        errorEl.textContent = 'Incorrect password.';
+        shake(); return;
+      }
+      // Validate category matches account category (or account is All)
+      if (account.category !== 'All' && account.category !== category) {
+        errorEl.textContent = `This account manages "${account.category}", not "${category}".`;
+        shake(); return;
+      }
+
+      btn.classList.add('loading');
+      setTimeout(() => {
+        localStorage.setItem('campusiq_user', JSON.stringify({
+          username, role: 'admin', category: category === 'All' ? 'All' : account.category
+        }));
+        window.location.href = 'index.html';
+      }, 600);
+    }
+
+    /* ── Staff login ── */
+    function loginStaff() {
+      const name     = document.getElementById('st_name').value.trim();
+      const category = document.getElementById('st_category').value;
+      const password = document.getElementById('st_password').value;
+      const errorEl  = document.getElementById('staffError');
+      const btn      = document.getElementById('staffLoginBtn');
+
+      errorEl.textContent = '';
+
+      if (!name || !category || !password) {
+        errorEl.textContent = 'Please fill in all fields.';
+        shake(); return;
+      }
+
+      const correct = STAFF_PASSWORDS[category];
+      if (password !== correct) {
+        errorEl.textContent = 'Incorrect category password.';
+        shake(); return;
+      }
+
+      btn.classList.add('loading');
+      setTimeout(() => {
+        // Use name+category as unique identifier
+        const username = `${name.toLowerCase().replace(/\s+/g,'_')}_${category.toLowerCase()}`;
+        localStorage.setItem('campusiq_user', JSON.stringify({
+          username, role: 'staff', name, category
+        }));
+        window.location.href = 'index.html';
+      }, 600);
+    }
+
+    /* ── Shake animation ── */
+    function shake() {
+      const card = document.getElementById('loginCard');
+      card.classList.add('shake');
+      setTimeout(() => card.classList.remove('shake'), 500);
+    }
+  </script>
+</body>
+</html>

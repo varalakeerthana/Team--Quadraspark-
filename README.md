@@ -2,7 +2,7 @@
 
 Welcome to the official hackathon repository by [GDG,UCE-OU].
 This repository serves as the starting point for all participating teams.
-Title of your repository shall be : team-(your team name)
+Title of your repository shall be : team-(Quadraspark)
 
 ## Team Details
 
@@ -11,10 +11,10 @@ After forking, fill in your team details below in your fork's README
 - **Team Name:**
 - **Team Lead:**
 - **Team Members:**
-  - Member 1:
-  - Member 2:
-  - Member 3:
-  - Member 4:
+  - Member 1: Varala Keerthana
+  - Member 2: B Hima Bindhu
+  - Member 3: Guguloth Suchithra
+  - Member 4: KR Nikshepa
 
 ---
 

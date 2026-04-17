@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusIQ — Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+</head>
+<body class="login-page">
+
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="login-wrapper">
+    <div class="login-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="10" fill="currentColor" opacity="0.15"/>
+          <path d="M20 8L32 14V26L20 32L8 26V14L20 8Z" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+          <path d="M20 16V12M20 28V24M12 20H8M32 20H28" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <h1 class="brand-name">CampusIQ</h1>
+      <p class="brand-tagline">Issue Reporting System</p>
+    </div>
+
+    <div class="login-card" id="loginCard">
+      <div class="card-header">
+        <h2 id="cardTitle">Welcome back</h2>
+        <p id="cardSub">Sign in to continue</p>
+      </div>
+
+      <!-- Role Toggle -->
+      <div class="role-toggle">
+        <button class="role-btn active" data-role="student" onclick="setRole('student')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
+          Student
+        </button>
+        <button class="role-btn" data-role="admin" onclick="setRole('admin')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Admin
+        </button>
+        <button class="role-btn" data-role="staff" onclick="setRole('staff')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+          Staff
+        </button>
+      </div>
+
+      <!-- Tab: Login -->
+      <div id="tabLogin">
+        <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+
+          <!-- STUDENT fields -->
+          <div id="studentFields">
+            <div class="form-group">
+              <label>Student ID <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                <input type="text" id="studentId" placeholder="Enter Roll no" autocomplete="off" maxlength="12"/>
+              </div>
+              <span class="field-hint"></span>
+            </div>
+            <div class="form-group">
+              <label>Phone Number <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                <input type="tel" id="studentPhone" placeholder="10-digit phone number" maxlength="10"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Gmail ID <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                <input type="email" id="studentEmail" placeholder="example@gmail.com"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- ADMIN fields -->
+          <div id="adminFields" style="display:none">
+            <div class="form-group">
+              <label>Admin Username <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                <input type="text" id="adminUsername" placeholder="Admin username" autocomplete="off"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Category <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="adminCategory">
+                  <option value="">Select your category</option>
+                  <option>Electrical</option>
+                  <option>Plumbing</option>
+                  <option>Safety</option>
+                  <option>IT / Network</option>
+                  <option>Infrastructure</option>
+                  <option>Cleanliness</option>
+                </select>
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              </div>
+              <span class="field-hint">Only one admin per category is allowed</span>
+            </div>
+          </div>
+
+          <!-- STAFF fields -->
+          <div id="staffFields" style="display:none">
+            <div class="form-group">
+              <label>Full Name <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                <input type="text" id="staffName" placeholder="Your full name"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Category <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="staffCategory">
+                  <option value="">Select your category</option>
+                  <option>Electrical</option>
+                  <option>Plumbing</option>
+                  <option>Safety</option>
+                  <option>IT / Network</option>
+                  <option>Infrastructure</option>
+                  <option>Cleanliness</option>
+                </select>
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Staff ID</label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"/></svg>
+                <input type="text" id="staffId" placeholder="Staff ID (auto-generated if blank)" autocomplete="off"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password (shared) -->
+          <div class="form-group">
+            <label>Password <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+              <input type="password" id="password" placeholder="Min. 8 characters"/>
+              <button type="button" class="toggle-pw" onclick="togglePassword('password', 'eyeIcon1')">
+                <svg id="eyeIcon1" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="error-msg" id="errorMsg"></div>
+
+          <button type="submit" class="btn-login" id="loginBtn">
+            <span id="loginBtnText">Sign In</span>
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+          </button>
+        </form>
+
+        <div class="login-switch">
+          <span id="switchText">New here?</span>
+          <button class="link-btn" onclick="switchToRegister()" id="switchBtn">Create account</button>
+        </div>
+      </div>
+
+      <!-- Tab: Register -->
+      <div id="tabRegister" style="display:none">
+        <form id="registerForm" onsubmit="handleRegister(event)" novalidate>
+
+          <!-- STUDENT reg fields -->
+          <div id="regStudentFields">
+            <div class="form-group">
+              <label>Student ID <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                <input type="text" id="reg_studentId" placeholder="Enter Roll no" maxlength="12"/>
+              </div>
+              <span class="field-hint"></span>
+            </div>
+            <div class="form-group">
+              <label>Full Name <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                <input type="text" id="reg_name" placeholder="Your full name"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Phone Number <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                <input type="tel" id="reg_phone" placeholder="10-digit phone number" maxlength="10"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Gmail ID <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                <input type="email" id="reg_email" placeholder="example@gmail.com"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Branch <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0z"/></svg>
+                <input type="text" id="reg_branch" placeholder="e.g. Computer Science"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- ADMIN reg fields -->
+          <div id="regAdminFields" style="display:none">
+            <div class="form-group">
+              <label>Admin Username <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                <input type="text" id="reg_adminUsername" placeholder="Choose admin username" autocomplete="off"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Category <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="reg_adminCategory">
+                  <option value="">Select your category</option>
+                  <option>Electrical</option>
+                  <option>Plumbing</option>
+                  <option>Safety</option>
+                  <option>IT / Network</option>
+                  <option>Infrastructure</option>
+                  <option>Cleanliness</option>
+                </select>
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              </div>
+              <span class="field-hint">Only one admin per category is allowed</span>
+            </div>
+          </div>
+
+          <!-- STAFF reg fields -->
+          <div id="regStaffFields" style="display:none">
+            <div class="form-group">
+              <label>Full Name <span class="req">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                <input type="text" id="reg_staffName" placeholder="Your full name"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Category <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="reg_staffCategory">
+                  <option value="">Select your category</option>
+                  <option>Electrical</option>
+                  <option>Plumbing</option>
+                  <option>Safety</option>
+                  <option>IT / Network</option>
+                  <option>Infrastructure</option>
+                  <option>Cleanliness</option>
+                </select>
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password for registration -->
+          <div class="form-group">
+            <label>Password <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+              <input type="password" id="reg_password" placeholder="Min. 8 characters"/>
+              <button type="button" class="toggle-pw" onclick="togglePassword('reg_password', 'eyeIcon2')">
+                <svg id="eyeIcon2" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Confirm Password <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <svg class="input-icon-left" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+              <input type="password" id="reg_confirm" placeholder="Re-enter password"/>
+            </div>
+          </div>
+
+          <div class="error-msg" id="regErrorMsg"></div>
+
+          <button type="submit" class="btn-login" id="regBtn">
+            <span id="regBtnText">Create Account</span>
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+          </button>
+        </form>
+
+        <div class="login-switch">
+          <span>Already have an account?</span>
+          <button class="link-btn" onclick="switchToLogin()">Sign in</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

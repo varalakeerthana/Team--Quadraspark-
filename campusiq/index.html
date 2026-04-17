@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusIQ — Issue Reporting</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="10" fill="currentColor" opacity="0.15"/>
+          <path d="M20 8L32 14V26L20 32L8 26V14L20 8Z" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+          <path d="M20 16V12M20 28V24M12 20H8M32 20H28" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <span class="brand-name">CampusIQ</span>
+      <button class="sidebar-close" id="sidebarClose" onclick="toggleSidebar()">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Student nav -->
+      <div class="nav-section student-only">
+        <span class="nav-label">Overview</span>
+        <button class="nav-item active" onclick="showSection('dashboard')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-item" onclick="showSection('submit')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+          Report Issue
+        </button>
+      </div>
+
+      <!-- Admin nav -->
+      <div class="nav-section admin-only" style="display:none">
+        <span class="nav-label">Admin</span>
+        <button class="nav-item active" onclick="showSection('admin')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Admin Panel
+        </button>
+      </div>
+
+      <!-- Staff nav -->
+      <div class="nav-section staff-only" style="display:none">
+        <span class="nav-label">Staff</span>
+        <button class="nav-item active" onclick="showSection('staff')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+          My Assignments
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <span class="nav-label">Issues</span>
+        <button class="nav-item" onclick="loadIssues('all')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+          All Issues
+        </button>
+        <button class="nav-item student-only" onclick="loadIssues('mine')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+          My Issues
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="sidebarAvatar">A</div>
+        <div class="user-info">
+          <span class="user-name" id="sidebarUsername">User</span>
+          <span class="user-role" id="sidebarRole">student</span>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="logout()">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main-content" id="mainContent">
+
+    <header class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-actions">
+        <div class="search-wrap" id="searchWrap" style="display:none;">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+          <input type="text" id="searchInput" placeholder="Search issues…" oninput="filterIssues()"/>
+        </div>
+        <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">
+          <svg id="sunIcon" viewBox="0 0 20 20" fill="currentColor" style="display:none;"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/></svg>
+          <svg id="moonIcon" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== STUDENT DASHBOARD ===== -->
+    <section class="section" id="sectionDashboard">
+      <div class="section-intro">
+        <h2 class="section-title">Your Dashboard</h2>
+        <p class="section-sub">A quick overview of your reported issues</p>
+      </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card stat-total">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="statTotal">0</span><span class="stat-label">Total Issues</span></div>
+        </div>
+        <div class="stat-card stat-pending">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="statPending">0</span><span class="stat-label">Pending</span></div>
+        </div>
+        <div class="stat-card stat-progress">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="statInProgress">0</span><span class="stat-label">In Progress</span></div>
+        </div>
+        <div class="stat-card stat-resolved">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="statResolved">0</span><span class="stat-label">Resolved</span></div>
+        </div>
+        <div class="stat-card stat-satisfied">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="statSatisfied">0</span><span class="stat-label">Satisfied</span></div>
+        </div>
+      </div>
+      <div class="quick-actions">
+        <button class="btn-primary" onclick="showSection('submit')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+          Report New Issue
+        </button>
+        <button class="btn-secondary" onclick="loadIssues('mine')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd"/></svg>
+          View My Issues
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== SUBMIT SECTION (Student) ===== -->
+    <section class="section hidden" id="sectionSubmit">
+      <div class="section-intro">
+        <h2 class="section-title">Report an Issue</h2>
+        <p class="section-sub">Fill out the form below — we'll look into it promptly</p>
+      </div>
+
+      <div class="form-card" id="issueFormCard">
+        <form id="issueForm" onsubmit="submitIssue(event)" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name <span class="req">*</span></label>
+              <input type="text" id="f_name" placeholder="Auto-filled from login" readonly/>
+            </div>
+            <div class="form-group">
+              <label>Phone Number <span class="req">*</span></label>
+              <input type="tel" id="f_phone" placeholder="Auto-filled from login" readonly/>
+            </div>
+            <div class="form-group">
+              <label>Branch <span class="req">*</span></label>
+              <input type="text" id="f_branch" placeholder="Auto-filled from login" readonly/>
+            </div>
+            <div class="form-group">
+              <label>Issue Title <span class="req">*</span></label>
+              <input type="text" id="f_title" placeholder="Brief title of the issue" required/>
+            </div>
+            <div class="form-group">
+              <label>Location <span class="req">*</span></label>
+              <input type="text" id="f_location" placeholder="e.g. Block C, Lab 3" required/>
+            </div>
+            <div class="form-group">
+              <label>Category <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="f_category" required>
+                  <option value="">Select a category</option>
+                  <option>Electrical</option>
+                  <option>Plumbing</option>
+                  <option>Safety</option>
+                  <option>Sexual Assault</option>
+                  <option>Ragging</option>
+                  <option>IT / Network</option>
+                  <option>Infrastructure</option>
+                  <option>Cleanliness</option>
+                  <option>Academic</option>
+                  <option>Administrative</option>
+                  <option>Canteen / Food</option>
+                  <option>Other</option>
+                </select>
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Description</label>
+            <textarea id="f_description" rows="3" placeholder="Describe the issue in detail (optional)"></textarea>
+          </div>
+
+          <!-- Privacy toggle -->
+          <div class="form-group full-width">
+            <label>Visibility</label>
+            <div class="privacy-toggle">
+              <button type="button" class="privacy-btn active" id="privPublic" onclick="setPrivacy('public')">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.5 5.973 6.5 6A1.5 1.5 0 008 7.5h.001c.827 0 1.499-.672 1.499-1.499V5.99A5.002 5.002 0 0114 10v.5a.5.5 0 01-.5.5h-.748c-.385 0-.72.25-.857.61l-.5 1.342c-.132.352-.475.548-.84.548h-.012a.997.997 0 01-.849-1.523l.506-.843a.997.997 0 00-.133-1.229l-.668-.668A2.5 2.5 0 007 8.5H6.5A.5.5 0 016 8a.5.5 0 01.048-.213l.001-.003z" clip-rule="evenodd"/></svg>
+                Public
+              </button>
+              <button type="button" class="privacy-btn" id="privPrivate" onclick="setPrivacy('private')">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                Private
+              </button>
+            </div>
+            <span class="field-hint">Private issues are only visible to you and admins</span>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Photo (optional)</label>
+            <div class="file-drop" id="fileDrop" onclick="document.getElementById('f_photo').click()">
+              <input type="file" id="f_photo" accept="image/*" onchange="handleFileSelect(this)" style="display:none;"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+              <p id="fileDropText">Click to upload an image</p>
+              <span>Supports JPG, PNG, WEBP</span>
+            </div>
+            <img id="photoPreview" class="photo-preview" style="display:none;"/>
+            <div id="aiImageWarning" class="ai-warning" style="display:none;"></div>
+          </div>
+
+          <div id="submitMsg" class="submit-msg"></div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="resetForm()">Clear Form</button>
+            <button type="submit" class="btn-primary" id="submitBtn">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+              Submit Issue
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== ISSUES LIST SECTION ===== -->
+    <section class="section hidden" id="sectionIssues">
+      <div class="section-intro">
+        <h2 class="section-title" id="issuesTitle">All Issues</h2>
+        <p class="section-sub" id="issuesSub">Showing all reported issues</p>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-chip active" onclick="filterByStatus('all', this)">All</button>
+        <button class="filter-chip" onclick="filterByStatus('Pending', this)">Pending</button>
+        <button class="filter-chip" onclick="filterByStatus('In Progress', this)">In Progress</button>
+        <button class="filter-chip" onclick="filterByStatus('Resolved', this)">Resolved</button>
+      </div>
+      <div class="spinner-wrap hidden" id="spinnerWrap">
+        <div class="spinner"></div>
+        <p>Loading issues…</p>
+      </div>
+      <div class="issues-grid" id="issuesGrid"></div>
+      <div class="empty-state hidden" id="emptyState">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        <h3>No issues found</h3>
+        <p id="emptyMsg">No issues have been reported yet.</p>
+      </div>
+    </section>
+
+    <!-- ===== ADMIN SECTION ===== -->
+    <section class="section hidden" id="sectionAdmin">
+      <div class="section-intro">
+        <h2 class="section-title">Admin Panel</h2>
+        <p class="section-sub" id="adminCategorySub">Managing issues for your category</p>
+      </div>
+      <div class="admin-stats" id="adminStats">
+        <div class="stat-card stat-total">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="adminStatTotal">0</span><span class="stat-label">Total</span></div>
+        </div>
+        <div class="stat-card stat-pending">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="adminStatPending">0</span><span class="stat-label">Pending</span></div>
+        </div>
+        <div class="stat-card stat-progress">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="adminStatInProgress">0</span><span class="stat-label">In Progress</span></div>
+        </div>
+        <div class="stat-card stat-resolved">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="stat-info"><span class="stat-num" id="adminStatResolved">0</span><span class="stat-label">Resolved</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;">
+        <button class="btn-primary" onclick="loadAdminIssues()">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd"/></svg>
+          View My Category Issues
+        </button>
+      </div>
+
+      <!-- Admin issues list -->
+      <div id="adminIssuesList" style="margin-top:1.5rem;"></div>
+    </section>
+
+    <!-- ===== STAFF SECTION ===== -->
+    <section class="section hidden" id="sectionStaff">
+      <div class="section-intro">
+        <h2 class="section-title">My Assignments</h2>
+        <p class="section-sub">Issues assigned to you</p>
+      </div>
+      <div id="staffIssuesList" style="margin-top:1rem;"></div>
+    </section>
+
+  </main>
+
+  <!-- ========== ASSIGN STAFF MODAL ========== -->
+  <div class="modal-overlay hidden" id="assignModal">
+    <div class="modal-content assign-modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeAssignModal()">✕</button>
+      <h3 style="font-family:var(--font-display);margin-bottom:1rem;">Assign Staff</h3>
+      <p style="font-size:.875rem;color:var(--text-2);margin-bottom:1rem;" id="assignIssueTitle"></p>
+      <div id="staffList" style="margin-bottom:1.25rem;"></div>
+      <div id="assignError" class="error-msg"></div>
+      <button class="btn-primary" onclick="confirmAssign()" style="width:100%;">Confirm Assignment</button>
+    </div>
+  </div>
+
+  <!-- ========== STAFF UPDATE STATUS MODAL ========== -->
+  <div class="modal-overlay hidden" id="statusModal">
+    <div class="modal-content assign-modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeStatusModal()">✕</button>
+      <h3 style="font-family:var(--font-display);margin-bottom:1rem;">Update Status</h3>
+      <p style="font-size:.875rem;color:var(--text-2);margin-bottom:1rem;" id="statusIssueTitle"></p>
+      <div class="form-group">
+        <label>Status</label>
+        <div class="select-wrap">
+          <select id="statusSelect">
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+      </div>
+      <div class="form-group" id="resolvedPhotoGroup" style="display:none;">
+        <label>Upload Resolved Photo (optional)</label>
+        <div class="file-drop" onclick="document.getElementById('resolvedPhoto').click()" style="padding:1rem;">
+          <input type="file" id="resolvedPhoto" accept="image/*" style="display:none;" onchange="handleResolvedPhoto(this)"/>
+          <p id="resolvedPhotoText" style="font-size:.875rem;margin:0;">Click to upload photo</p>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="confirmStatusUpdate()" style="width:100%;margin-top:.75rem;">Update Status</button>
+    </div>
+  </div>
+
+  <!-- ========== PHOTO MODAL ========== -->
+  <div class="modal-overlay hidden" id="photoModal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <img id="modalImg" src="" alt="Issue photo"/>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
